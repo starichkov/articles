@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: spring-boot-redis-cache-optional-example
+  cache:
+    type: redis
+    redis:
+      cache-null-values: false
+      enable-statistics: true
+      time-to-live: 60s
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      lettuce:
+        cluster:
+          refresh:
+            adaptive: true
+            period: 60s
+
+# Logging Redis connectivity issues, to be aware of them
+logging:
+  level:
+    org.springframework.cache: WARN
+
+# Disabling default Redis health indication provided by spring-boot-starter-data-redis, otherwise k8s will kill the pod
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: false
+#    redis:
+#      enabled: false
+  server:
+    port: 8081
